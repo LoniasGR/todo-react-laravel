@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('session/{session:uuid}', function (Session $session) {
+    $ret = new stdClass();
+    $ret->success = true;
+    $ret->data = $session->todos;
+    
+    return json_encode($ret);
+});
+
+Route::post('session/{id}', function ($id) {
+    $session = new Session();
+    $session->uuid = $id;
+    $session->save();
+
+    $ret = new stdClass();
+    $ret->success = true;
+    $ret->msg = "Session created";
+    return json_encode($ret);
 });

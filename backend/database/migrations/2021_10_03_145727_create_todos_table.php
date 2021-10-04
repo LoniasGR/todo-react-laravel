@@ -15,6 +15,7 @@ class CreateTodosTable extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('session_id');
             $table->text('title')->nullable();
             $table->text('description');
             $table->boolean('done')->default(0);

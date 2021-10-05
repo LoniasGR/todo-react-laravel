@@ -6,7 +6,8 @@
 
 Todo application based on React and Laravel. From Laravel we only use the API.
 The idea is that every time you open the website you get a UUID for your session,
-which you can use later to come back to the exact same todo list.
+which you can use later to come back to the exact same todo list. I also skipped the
+due date, because I didn't want to invest more time in it.
 
 ### Set Up
 

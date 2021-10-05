@@ -15,7 +15,9 @@ which you can use later to come back to the exact same todo list.
     npm install
     npm start
     cd ../backend
+    touch ./database/database.sqlite
     composer update
+    php artisan migrate
     php artisan serve
 ```
 

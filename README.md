@@ -21,6 +21,5 @@ which you can use later to come back to the exact same todo list.
 
 ### General Remarks
 
-I cheated a bit on the backend, and wrote most of the request code inside the `/routes/api` file, 
-as understanding how the laravel system works was taking too much time. 
-
+I cheated a bit on the backend, and wrote most of the request code inside the `/routes/api` file,
+as understanding how the laravel system works was taking too much time.

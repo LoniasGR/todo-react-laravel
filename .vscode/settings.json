@@ -1,8 +1,4 @@
 {
-    "cSpell.words": [
-        "Unstyled",
-        "uuidv"
-    ],
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
@@ -14,6 +10,5 @@
     "eslint.validate": [
         "javascript"
     ],
-    "cmake.configureOnOpen": false,
     "prettier.requireConfig": true,
 }

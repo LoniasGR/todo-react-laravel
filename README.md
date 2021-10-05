@@ -25,4 +25,5 @@ due date, because I didn't want to invest more time in it.
 ### General Remarks
 
 I cheated a bit on the backend, and wrote most of the request code inside the `/routes/api` file,
-as understanding how the laravel system works was taking too much time.
+as understanding how the laravel system works was taking too much time. I also think neither of them
+is very good, but both are half decent, so yay me.

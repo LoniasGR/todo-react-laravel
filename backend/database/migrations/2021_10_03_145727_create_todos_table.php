@@ -17,9 +17,9 @@ class CreateTodosTable extends Migration
             $table->id();
             $table->foreignId('session_id');
             $table->text('title')->nullable();
-            $table->text('description');
-            $table->boolean('done')->default(0);
-            $table->timestamp('DueAt')->nullable();
+            $table->text('text');
+            $table->boolean('completed')->default(false);
+            $table->timestamp('dueAt')->nullable();
             $table->timestamps();
         });
     }

@@ -1,80 +1,85 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ButtonUnstyled from '@mui/core/ButtonUnstyled';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import React from "react";
+import PropTypes from "prop-types";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
-const lightTheme = createTheme({ palette: { mode: 'light' } });
+import TodoNormalText from "./TodoNormalText";
+import TodoEditingText from "./TodoEditingText";
+
+const lightTheme = createTheme({ palette: { mode: "light" } });
 
 const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   height: 120,
-  minWidth: '13em',
+  minWidth: "13em",
   width: 500,
+  display: "flex",
 }));
-
-const ToDoButton = styled(ButtonUnstyled)(`
-background-color: #fff;
-color: #000;
-font-family: Roboto;
-font-size: 16px;
-transition: all 200ms ease;
-cursor: pointer;
-border: none;
-width: 100%;
-height: 100%;
-display: block;
-
-
-&:hover {
-  background-color: #fff;
-}
-`);
 
 function Todo(props) {
   const {
-    title, text, completed, handleDelete, handleCompleted,
+    title,
+    text,
+    editing,
+    newTitle,
+    newText,
+    setNewTitle,
+    setNewText,
+    setEditing,
+    completed,
+    handleDelete,
+    handleCompleted,
+    listener,
   } = props;
 
-  const strikeThrough = completed ? 'line-through' : 'none';
   return (
     <ThemeProvider theme={lightTheme}>
       <Item>
         <Grid container direction="row">
-          <Grid item xs={8} md={8}>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={2}
-            />
-            {title !== ''
-              && (
-              <ToDoButton
-                variant="text"
-                onClick={handleCompleted}
-                style={{ textDecoration: strikeThrough, fontSize: '25px' }}
-              >
-                {title}
-              </ToDoButton>
-              )}
-            <ToDoButton
-              onClick={handleCompleted}
-              style={{ textDecoration: strikeThrough }}
-            >
-              {text}
-            </ToDoButton>
-          </Grid>
           <Grid
             item
-            xs={4}
-            md={4}
-            sx={{ alignItems: 'right', justifyItems: 'right', marginTop: '1rem' }}
+            xs={8}
+            md={8}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
+            {editing ? (
+              <TodoEditingText
+                newTitle={newTitle}
+                newText={newText}
+                setNewTitle={setNewTitle}
+                setNewText={setNewText}
+                listener={listener}
+              />
+            ) : (
+              <TodoNormalText
+                title={title}
+                text={text}
+                completed={completed}
+                handleCompleted={handleCompleted}
+              />
+            )}
+          </Grid>
+          <Grid item xs={4} md={4} sx={{ display: "flex" }}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              onClick={() => {
+                setEditing(true);
+              }}
+              aria-label="delete"
+              style={{ marginRight: "1rem" }}
+            >
+              <EditIcon />
+            </IconButton>
+
             <IconButton
               edge="end"
               color="inherit"
@@ -83,7 +88,6 @@ function Todo(props) {
             >
               <DeleteIcon />
             </IconButton>
-
           </Grid>
         </Grid>
       </Item>
@@ -94,9 +98,20 @@ function Todo(props) {
 export default Todo;
 
 Todo.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   text: PropTypes.string.isRequired,
-  completed: PropTypes.bool.isRequired,
+  editing: PropTypes.bool.isRequired,
+  newTitle: PropTypes.string.isRequired,
+  newText: PropTypes.string.isRequired,
+  setNewTitle: PropTypes.func.isRequired,
+  setNewText: PropTypes.func.isRequired,
+  setEditing: PropTypes.func.isRequired,
+  completed: PropTypes.string.isRequired,
   handleDelete: PropTypes.func.isRequired,
+  listener: PropTypes.func.isRequired,
   handleCompleted: PropTypes.func.isRequired,
+};
+
+Todo.defaultProps = {
+  title: "",
 };

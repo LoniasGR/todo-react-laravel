@@ -1,38 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
 
-import AddTodoView from '../views/AddTodo';
+import { apiURL } from "../api";
+import AddTodoView from "../views/AddTodo";
 
 function AddTodo(props) {
-  const { addToTodoList } = props;
-  const [text, setText] = useState('');
-  const [title, setTitle] = useState('');
-  const [newTodo, setNewTodo] = useState(false);
-  const [counter, setCounter] = useState(0);
+  const { uuid, setAddedTodo, addToTodoList } = props;
+
+  const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
+  const [writing, setWriting] = useState(false);
 
   const createTodo = () => {
+    axios
+      .post(`${apiURL}/todo/`, {
+        title,
+        text,
+        session_uuid: uuid,
+      })
+      .then(() => {
+        setAddedTodo(true);
+      });
+    setText("");
+    setTitle("");
+    setWriting(false);
     addToTodoList({
-      id: counter, title, text, completed: false,
+      id: -1,
+      title,
+      text,
+      completed: false,
     });
-    setText('');
-    setTitle('');
-    setNewTodo(false);
-    setCounter(counter + 1);
   };
 
   useEffect(() => {
     const listener = (event) => {
-      if (event.code === 'Enter' || event.code === 'NumpadEnter') {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
         event.preventDefault();
-        if (text !== '') { createTodo(); setNewTodo(false); }
-      } else if (event.code === 'Escape') {
+        if (text !== "") {
+          createTodo();
+          setWriting(false);
+        }
+      } else if (event.code === "Escape") {
         event.preventDefault();
-        setNewTodo(false);
+        setWriting(false);
       }
     };
-    document.addEventListener('keydown', listener);
+    document.addEventListener("keydown", listener);
     return () => {
-      document.removeEventListener('keydown', listener);
+      document.removeEventListener("keydown", listener);
     };
   });
 
@@ -40,10 +56,10 @@ function AddTodo(props) {
     <AddTodoView
       title={title}
       text={text}
-      newTodo={newTodo}
+      newTodo={writing}
       setText={setText}
       setTitle={setTitle}
-      setNewTodo={setNewTodo}
+      setNewTodo={setWriting}
     />
   );
 }
@@ -51,5 +67,7 @@ function AddTodo(props) {
 export default AddTodo;
 
 AddTodo.propTypes = {
+  uuid: PropTypes.string.isRequired,
+  setAddedTodo: PropTypes.func.isRequired,
   addToTodoList: PropTypes.func.isRequired,
 };

@@ -10,6 +10,11 @@ class Session extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+    protected $with = ['todos'];
+
+
     /**
      * Get all of the todos for the Session
      *

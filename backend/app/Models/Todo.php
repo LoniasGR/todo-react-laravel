@@ -10,12 +10,15 @@ class Todo extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
+
     /**
      * Get the session that owns the Todo
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(): BelongsTo
+    public function session(): BelongsTo
     {
         return $this->belongsTo(Session::class);
     }
